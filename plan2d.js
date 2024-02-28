@@ -155,14 +155,14 @@ function isOverLimit(point){
 	return true;
 }
 
-function isInContact(point1, point2=historiquePosition[historiquePosition.length-1], distanceMax=rayon*2){
+function isInContact(point1, distanceMax=rayon*2, point2=historiquePosition[historiquePosition.length-1]){
 	if (getDistance(point1, point2) < distanceMax){
 		return true;
 	}
 	return false;
 }
 
-function isWillInContact(vecteur1, point2=historiquePosition[historiquePosition.length-1], distanceMax=rayon*2){
+function isWillInContact(vecteur1, distanceMax=rayon*2, point2=historiquePosition[historiquePosition.length-1]){
 	if (getDistance(addPoint(vecteur1.position, vecteur1.trajectoire), point2) < distanceMax){
 		return true;
 	}

@@ -1,56 +1,36 @@
-function createBall(){
-	var coordonneApparition = getPositionAleatoirePerimetre();
-	var ball = {
-		'position':coordonneApparition,
-		'trajectoire': getTrajectoire(coordonneApparition, historiquePosition[historiquePosition.length-1], Math.random()*40+5),
-		'rebondBord':3
-	};
-	listeBall.push(ball);
-}
+class Ball extends Boule{
+	constructor(){
+		super("blue");
+		this.rebondBord = 3;
+	}
 
-function updateBall(){
-	var i=0
-	while (i < listeBall.length){
+	nextFrame(){
 		var contact = false;
-		for (var j = 0; j < listeClone.length; j++) {
-			var clone = historiquePosition[historiquePosition.length-listeClone[j]-1];
-			if (!contact && isWillInContact(listeBall[i], clone)){
-				contact = rebondirPoint(listeBall[i], clone);
+		for (var i = 0; i < listeClone.length; i++) {
+			if (!contact && isWillInContact(this, this.rayon+rayon, listeClone[i])){
+				contact = rebondirPoint(this, listeClone[i], this.rayon+rayon);
 			}
 		}
-		for (var j = 0; j < listefantome.length; j++) {
-			if (!contact && isWillInContact(listeBall[i], listefantome[j].position)){
-				contact = rebondirPoint(listeBall[i], listefantome[j].position);
+		for (var i = 0; i < listeBoule.length; i++) {
+			if (!contact && this !== listeBoule[i] && isWillInContact(this, this.rayon+listeBoule[i].rayon, listeBoule[i].position)){
+				contact = rebondirPoint(this, listeBoule[i].position, this.rayon+listeBoule[i].rayon);
 			}
 		}
-		for (var j = 0; j < listeBall.length; j++) {
-			if (!contact && listeBall[i] !== listeBall[j] && isWillInContact(listeBall[i], listeBall[j].position)){
-				contact = rebondirPoint(listeBall[i], listeBall[j].position);
-			}
-		}
-		if (contact === false && listeBall[i].rebondBord > 0){
-			var limite = getLimit(listeBall[i]);
+		if (contact === false && this.rebondBord > 0){
+			var limite = getLimit(this);
 			if (limite !== null){
-				contact = rebondirBord(listeBall[i], limite);
-				listeBall[i].rebondBord --;
+				contact = rebondirBord(this, limite);
+				this.rebondBord --;
 			}
 		}
 		if (contact === false){
-			listeBall[i].position = addPoint(listeBall[i].position, listeBall[i].trajectoire);
+			this.position = addPoint(this.position, this.trajectoire);
 		}
-		drawBall(listeBall[i].position, "blue");
-		if (isInContact(listeBall[i].position)){
-			gameOver = true;
-		}
-		if (isOverLimit(listeBall[i].position)){
-			listeBall[i].rebondBord --;
-			listeBall.splice(i, 1);
-		}
-		else{
-			i++;
-		}
+		this.draw();
+		this.setGameOver();
+		return !isOverLimit(this.position);
 	}
-}
+} 
 
 // point d'intersection entre la droite d et le cercle de centre o et de rayon r
 function rebondirPoint(v1, o, r=2*rayon){
@@ -86,9 +66,9 @@ function rebondir(v1, v2){
 	let vd = v1.trajectoire;
 	var rapport = Math.abs(getRapport(subPoint(d,p), vd));
 	if (rapport <= 1){
-		var nouvelleTrajectoire = mulPoint(subPoint(symetrieAxial(d, v2), p), 1/rapport);
-		var nouvellePosition = addPoint(p, mulPoint(nouvelleTrajectoire, 1-rapport));
-		v1.trajectoire = nouvelleTrajectoire;
+		var nouvelleTraiectoire = mulPoint(subPoint(symetrieAxial(d, v2), p), 1/rapport);
+		var nouvellePosition = addPoint(p, mulPoint(nouvelleTraiectoire, 1-rapport));
+		v1.trajectoire = nouvelleTraiectoire;
 		v1.position = nouvellePosition;
 		return true;
 	}

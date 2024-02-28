@@ -20,9 +20,9 @@ function findFirstElement(listeNb, min, max){
 	return null;
 }
 
-function drawBall(coordonnee, couleur){
+function drawBall(coordonnee, couleur, r=rayon){
 	context.fillStyle = couleur;
 	context.beginPath();
-	context.arc(coordonnee.x, coordonnee.y, rayon, 0, Math.PI*2, false);
+	context.arc(coordonnee.x, coordonnee.y, r, 0, Math.PI*2, false);
 	context.fill();
 }

@@ -1,11 +1,15 @@
-function updateClone(){
-	for (var i = 0; i < listeClone.length; i++) {
-		var cloneNumber = historiquePosition.length - listeClone[i] - 1;
-		if (cloneNumber > 0 && cloneNumber < historiquePosition.length){
-			drawBall(historiquePosition[cloneNumber], "red");
-			if (isInContact(historiquePosition[cloneNumber])){
-				gameOver = true;
-			}
+class Clone extends Boule{
+	constructor(retard){
+		super("red");
+		this.retard = retard;
+		this.nextFrame();
+	}
+
+	nextFrame(){
+		this.position = historiquePosition[historiquePosition.length - this.retard - 1];
+		if (this.position !== undefined){
+			this.draw();
+			this.setGameOver();
 		}
 	}
 }
