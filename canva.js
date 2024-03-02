@@ -14,8 +14,7 @@ var score = 0;
 
 document.addEventListener('mousemove', eventDeplacementSouris);
 document.addEventListener('touchmove', eventDeplacementDoigt);
-document.addEventListener('touchstart', eventClic);
-document.addEventListener('touchend', eventClic);
+document.addEventListener('touchstart', function(event) {switchPause(false);});
 document.addEventListener('mouseleave', function(event) {
 	switchPause(true);
 });
@@ -42,9 +41,17 @@ function eventDeplacementSouris(event){
 function eventDeplacementDoigt(event){
 	touch = event.touches[0];
 	positionSouris = {
-		'x':touch.clientX - DIMENSION.left,
+		'x': touch.clientX - DIMENSION.left,
 		'y': touch.clientY - DIMENSION.top
 	};
+	positionSouris.x = (positionSouris.x - DIMENSION.width/2)*2;
+	if (positionSouris.x < 0){
+		positionSouris.x = 0;
+	}
+	positionSouris.y = (positionSouris.y - 3*DIMENSION.height/4)*4;
+	if (positionSouris.y < 0){
+		positionSouris.y = 0;
+	}
 }
 
 function switchPause(etat=null){
