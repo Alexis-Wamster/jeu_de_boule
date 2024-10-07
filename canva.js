@@ -66,10 +66,10 @@ function switchPause(etat=null){
 				context.fillRect(0,0,DIMENSION.width, DIMENSION.height);
 				context.fillStyle = "black";
 				context.font = "48px serif";
-				context.fillText("1) Click on the green circle to play !", DIMENSION.width/2-350, DIMENSION.height/2+20);
-				context.fillText("2) Move the green circle", DIMENSION.width/2-350, DIMENSION.height/2);
-				context.fillText("3) Don't touch the others circles", DIMENSION.width/2-350, DIMENSION.height/2-20);
-				context.fillText("4) Refresh to restart", DIMENSION.width/2-350, DIMENSION.height/2-40);
+				context.fillText("1) Click on the green circle to play !", DIMENSION.width/2-350, DIMENSION.height/2);
+				context.fillText("2) Move the green circle", DIMENSION.width/2-350, DIMENSION.height/2+50);
+				context.fillText("3) Don't touch the others circles", DIMENSION.width/2-350, DIMENSION.height/2+100);
+				context.fillText("4) Refresh to restart", DIMENSION.width/2-350, DIMENSION.height/2+150);
 				drawBall(historiquePosition[historiquePosition.length-1], "#BADA55");
 			}
 			else{
